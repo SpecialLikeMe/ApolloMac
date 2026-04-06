@@ -1,0 +1,16 @@
+name: Interactive Mac Terminal
+on: 
+  workflow_dispatch: # Allows you to start this manually from the Actions tab
+
+jobs:
+  interactive-session:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Interactive Terminal (tmate)
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 60 # Keeps the session open for up to an hour
+        with:
+          limit-access-to-actor: true # Only YOU (the person who started it) can connect
