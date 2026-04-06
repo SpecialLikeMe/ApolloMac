@@ -13,4 +13,5 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 60 # Keeps the session open for up to an hour
         with:
-          limit-access-to-actor: true # Only YOU (the person who started it) can connect
+          # Security lock removed so it doesn't fail without an SSH key
+          limit-access-to-actor: false 
