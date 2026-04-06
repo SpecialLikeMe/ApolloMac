@@ -1,16 +1,20 @@
-name: Interactive Mac (Ngrok)
+name: Browser-Based Mac Terminal
 on: workflow_dispatch
 
 jobs:
-  terminal:
+  mac-session:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup SSH via Ngrok
-        # This action sets up a tunnel specifically for terminal access
-        uses: lhotari/action-upterm@v1
-        with:
-          ## We use Upterm's logic but through a different connection if needed
-          limit-access-to-actor: false
-          wait-timeout-minutes: 60
+      - name: Install Cloudflared
+        run: brew install cloudflared
+
+      - name: Start Terminal Tunnel
+        run: |
+          # This starts a quick tunnel and prints the URL to your logs
+          cloudflared access tcp --hostname ://trycloudflare.com --url localhost:22 &
+          
+          # This starts a web-based terminal session
+          npx gotty -w --port 8080 zsh &
+          
+          # This creates the public link you will click
+          cloudflared tunnel --url http://localhost:8080
