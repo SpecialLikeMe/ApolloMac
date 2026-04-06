@@ -1,17 +1,17 @@
-name: Interactive Mac Terminal (Fixed)
-on: 
-  workflow_dispatch:
+name: Mac Interactive Terminal
+on: [workflow_dispatch]
 
 jobs:
-  interactive-session:
+  terminal:
     runs-on: macos-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - name: Setup Interactive Terminal (Upterm)
-        uses: lhotari/action-upterm@v1
+      - uses: actions/checkout@v4
+      
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
         with:
-          # This disables the SSH key requirement
-          limit-access-to-actor: false 
-          wait-timeout-minutes: 60 
+          # This is the secret—it forces a web link instead of just SSH
+          connect-timeout-seconds: 60
+          
+      - name: Keep Alive
+        run: sleep 600 # Keeps the runner active for 10 minutes
