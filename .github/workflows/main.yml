@@ -1,5 +1,5 @@
-name: Mac Interactive Terminal
-on: [workflow_dispatch]
+name: Interactive Mac (Ngrok)
+on: workflow_dispatch
 
 jobs:
   terminal:
@@ -7,11 +7,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Setup SSH via Ngrok
+        # This action sets up a tunnel specifically for terminal access
+        uses: lhotari/action-upterm@v1
         with:
-          # This is the secret—it forces a web link instead of just SSH
-          connect-timeout-seconds: 60
-          
-      - name: Keep Alive
-        run: sleep 600 # Keeps the runner active for 10 minutes
+          ## We use Upterm's logic but through a different connection if needed
+          limit-access-to-actor: false
+          wait-timeout-minutes: 60
