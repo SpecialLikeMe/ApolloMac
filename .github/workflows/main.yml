@@ -1,4 +1,4 @@
-name: Interactive Mac Terminal
+name: Interactive Mac Terminal (Fixed)
 on: 
   workflow_dispatch:
 
@@ -12,5 +12,6 @@ jobs:
       - name: Setup Interactive Terminal (Upterm)
         uses: lhotari/action-upterm@v1
         with:
-          ## This will wait for you to connect before continuing
+          # This disables the SSH key requirement
+          limit-access-to-actor: false 
           wait-timeout-minutes: 60 
