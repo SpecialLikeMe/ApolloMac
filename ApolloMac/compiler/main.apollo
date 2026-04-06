@@ -1,0 +1,86 @@
+extern iostream
+extern vector
+extern [&macro] mymacro() {
+    sys.println("Hello");
+}
+class woeiru {
+    
+}
+int main() {
+    async -override {
+        int main() {
+            async_write("function", "native_sum", "i32(i32,i32)", "int native_sum(int a, int b) { return a + b; }");
+            async_write("variable", "shared_message", "str", "hello from inline cpp");
+            return 0;
+        }
+    }cpp;
+
+    str nativeFn;
+    nativeFn = async_read("function", "native_sum");
+    sys.println(nativeFn);
+
+    str sharedMessage;
+    sharedMessage = async_read("variable", "shared_message");
+    sys.println(sharedMessage);
+
+    async_write("script", "shared_runner", "python", "print(42)", "py");
+    i32 execStatus;
+    execStatus = async_exec("script", "shared_runner");
+    sys.println(execStatus);
+
+    async {
+        public class ApoAsyncTask {
+            public static void main(String[] args) {
+                String message = async_read("variable", "shared_message");
+                System.out.println(message);
+                int execStatus = async_exec("script", "shared_runner");
+                System.out.println(execStatus);
+                async_write("class", "BridgeClass", "java", "public class BridgeClass { public String name() { return \"bridge\"; } }");
+            }
+        }
+    }java;
+    syscall -recursive;
+    f64 pi;
+    str bridgeClass;
+    bridgeClass = async_read("class", "BridgeClass");
+    sys.println(bridgeClass);
+    i32 counter;
+    counter=0;
+    i32 *ptr _&counter();
+    while (counter<4) {
+        sys.println("hello, world ");
+        counter=counter+1;
+    }
+    async -override {
+        fn main() {
+        let message = async_read("variable", "shared_message");
+        println!("{}", message);
+        let exec_status = async_exec("script", "shared_runner");
+        println!("{}", exec_status);
+        async_write("variable", "rust_message", "str", "hello from inline rust");
+        }
+    }rs;
+    hsh<str, int> ulmap;
+    ulmap["hello"]=239847;
+    sys.println(ulmap["hello"]);
+    hsh<hsh<i32, str>, hsh<str, i32>> tester;
+    tester[<23, "hello">]=<"hello", 4>;
+    sys.println(tester[<23, "hello">]["hello"]);
+    str rustMessage;
+    rustMessage = async_read("variable", "rust_message");
+    sys.println(rustMessage);
+    sys.stdout("qpwoeiruqpwoeiru");
+    mymacro();
+    str io;
+    staticx instance make = mycls{};
+    make.bark();
+    return 0;
+}
+class mycls {
+    public static void bark() {
+        sys.println("static");
+        return;
+    }
+}
+
+
