@@ -1,6 +1,6 @@
 name: Interactive Mac Terminal
 on: 
-  workflow_dispatch: # Allows you to start this manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   interactive-session:
@@ -9,9 +9,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Setup Interactive Terminal (tmate)
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 60 # Keeps the session open for up to an hour
+      - name: Setup Interactive Terminal (Upterm)
+        uses: lhotari/action-upterm@v1
         with:
-          # Security lock removed so it doesn't fail without an SSH key
-          limit-access-to-actor: false 
+          ## This will wait for you to connect before continuing
+          wait-timeout-minutes: 60 
